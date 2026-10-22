@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0b12" />
+  <title>Torii para Android</title>
+  <meta name="description" content="Descargá Torii para tu celular Android." />
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0b12;
+      --card: #14141d;
+      --line: rgb(255 255 255 / 0.1);
+      --text: #f4f4f8;
+      --muted: #a0a0b4;
+      --accent: #8b5cf6;
+      --accent-light: #c4b5fd;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: 24px 16px;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      color: var(--text);
+      background: radial-gradient(120% 70% at 50% 0%, #241a44 0%, var(--bg) 60%);
+    }
+    main { width: min(26rem, 100%); text-align: center; }
+    .mark { width: 88px; height: 88px; margin: 0 auto 20px; display: block; }
+    h1 { margin: 0 0 6px; font-size: 1.9rem; letter-spacing: -0.01em; }
+    .lead { margin: 0 0 28px; color: var(--muted); }
+    .button {
+      display: block;
+      padding: 16px 20px;
+      border-radius: 999px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
+      background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+      box-shadow: 0 8px 28px rgb(124 58 237 / 0.35);
+    }
+    .button:active { filter: brightness(0.95); }
+    .meta { margin: 10px 0 0; font-size: 0.8rem; color: var(--muted); }
+    ol {
+      margin: 32px 0 0;
+      padding: 0;
+      list-style: none;
+      text-align: left;
+      counter-reset: step;
+      display: grid;
+      gap: 10px;
+    }
+    li {
+      counter-increment: step;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+    li::before {
+      content: counter(step);
+      flex: none;
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-light);
+      background: rgb(139 92 246 / 0.18);
+    }
+    li b { color: var(--text); }
+    li span { color: var(--muted); }
+    footer { margin-top: 28px; font-size: 0.75rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <svg class="mark" viewBox="192 192 640 640" role="img" aria-label="Torii">
+      <mask id="m" maskUnits="userSpaceOnUse" x="192" y="192" width="640" height="640">
+        <rect x="192" y="192" width="640" height="640" rx="120" fill="#fff" />
+        <g fill="#000">
+          <path d="M250 330 C323.4 372.7 700.6 372.7 774 330 L756 400 C687.7 442.7 336.3 442.7 268 400 Z" />
+          <rect x="294" y="478" width="436" height="54" />
+          <rect x="352" y="420" width="72" height="420" />
+          <rect x="600" y="420" width="72" height="420" />
+        </g>
+      </mask>
+      <rect x="192" y="192" width="640" height="640" fill="#c4b5fd" mask="url(#m)" />
+    </svg>
+    <h1>Torii</h1>
+    <p class="lead">Tu anime, ahora también en el celular.</p>
+
+    <a class="button" href="https://github.com/torii-app-zz/torii-releases/releases/download/android/Torii.apk" download>Descargar para Android</a>
+    <p class="meta">Android 7 o superior · archivo APK</p>
+
+    <ol>
+      <li><div><b>Abrí el archivo descargado.</b><br /><span>Lo encontrás en las notificaciones o en la carpeta Descargas.</span></div></li>
+      <li><div><b>Si el celular lo pide, permití instalar apps de esta fuente.</b><br /><span>Es un aviso normal de Android para apps que no vienen de la tienda.</span></div></li>
+      <li><div><b>Instalá y abrí Torii.</b><br /><span>Para traer tu biblioteca desde la PC: Ajustes → Vincular celular.</span></div></li>
+    </ol>
+
+    <footer>Las actualizaciones llegan solas desde la propia app.</footer>
+  </main>
+</body>
+</html>
