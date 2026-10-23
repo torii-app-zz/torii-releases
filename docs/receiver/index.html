@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Torii</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #000; font-family: system-ui, 'Segoe UI', Roboto, sans-serif; color: #f4f4f8; }
+    cast-media-player { position: fixed; inset: 0; --splash-image: none; --progress-color: #8b5cf6; --playback-logo-image: none; }
+    /* Nothing playing: the mark and one line. */
+    #idle { z-index: 10; position: fixed; inset: 0; display: grid; place-content: center; justify-items: center; gap: 2.2vh; background: radial-gradient(120% 70% at 50% 0%, #241a44 0%, #0b0b12 60%); transition: opacity 0.4s; }
+    #idle img { width: 16vh; height: 16vh; }
+    #idle p { margin: 0; font-size: 3.4vh; color: #c9c9da; }
+    #idle.off { opacity: 0; pointer-events: none; }
+    /* The line the app asks to show (preparing, an error). */
+    #note { z-index: 12; position: fixed; left: 50%; bottom: 8vh; transform: translateX(-50%); max-width: 80vw; padding: 1.4vh 3vh; border-radius: 99px; background: rgb(11 11 18 / 0.85); font-size: 3vh; text-align: center; display: none; }
+    #note.on { display: block; }
+    /* The subtitles: drawn here, from the cues the phone gives. */
+    #subs { z-index: 11; position: fixed; left: 8vw; right: 8vw; bottom: 7vh; text-align: center; font-size: 4.2vh; line-height: 1.25; font-weight: 600; color: #fff; text-shadow: 0 0 0.5vh #000, 0 0 0.5vh #000, 0 0.2vh 0.8vh #000, 0 0 1.6vh #000; white-space: pre-line; pointer-events: none; }
+    #subs i { font-style: italic; }
+    #subs b { font-weight: 800; }
+  </style>
+</head>
+<body>
+  <cast-media-player></cast-media-player>
+  <div id="subs"></div>
+  <div id="idle"><img src="logo.png" alt="" /><p>Empezá a reproducir un video</p></div>
+  <div id="note" role="status"></div>
+  <script src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
+  <script>
+    (function () {
+      'use strict'
+      var NS = 'urn:x-cast:app.torii'
+      var context = cast.framework.CastReceiverContext.getInstance()
+      var player = context.getPlayerManager()
+      var events = cast.framework.events
+      var idle = document.getElementById('idle')
+      var note = document.getElementById('note')
+      var subsBox = document.getElementById('subs')
+
+      // What the app says of this video (it comes in the load): where in the episode the
+      // run begins, and the subtitles to draw.
+      var cfg = { start: 0, subs: [], active: -1 }
+      var cues = []
+      var complete = false
+      var pollTimer = null
+      var noteTimer = null
+
+      function say(text, ms) {
+        clearTimeout(noteTimer)
+        if (!text) { note.className = ''; return }
+        note.textContent = text
+        note.className = 'on'
+        if (ms) noteTimer = setTimeout(function () { note.className = '' }, ms)
+      }
+
+      // ---- the subtitles
+      function activeSub() {
+        for (var i = 0; i < cfg.subs.length; i++) if (cfg.subs[i].id === cfg.active) return cfg.subs[i]
+        return null
+      }
+      function fetchCues() {
+        clearTimeout(pollTimer)
+        var sub = activeSub()
+        if (!sub) { cues = []; return }
+        var wanted = sub.id
+        fetch(sub.url, { cache: 'no-store' })
+          .then(function (r) { return r.text() })
+          .then(function (body) {
+            if (cfg.active !== wanted) return
+            // A list that grows (JSON, from the phone as it makes the video) or a whole WebVTT file.
+            var data = body.charAt(0) === '{' ? JSON.parse(body) : { cues: parseVtt(body), complete: true }
+            cues = data.cues || []
+            complete = !!data.complete
+            if (!complete) pollTimer = setTimeout(fetchCues, 4000)
+          })
+          .catch(function () { pollTimer = setTimeout(fetchCues, 6000) })
+      }
+      function clock(s) {
+        var p = s.trim().split(':').map(parseFloat)
+        return p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + p[1]
+      }
+      function parseVtt(text) {
+        var out = []
+        var lines = text.split(/\r?\n/)
+        for (var i = 0; i < lines.length; i++) {
+          var m = lines[i].match(/^\s*([\d:.]+)\s*-->\s*([\d:.]+)/)
+          if (!m) continue
+          var body = []
+          for (i = i + 1; i < lines.length && lines[i].trim() !== ''; i++) body.push(lines[i])
+          out.push({ s: clock(m[1]), e: clock(m[2]), t: body.join('\n') })
+        }
+        return out
+      }
+      // The time of the episode, whichever way the player counts (from 0 or from where the run begins).
+      function episodeTime() {
+        var t = player.getCurrentTimeSec() || 0
+        return t >= cfg.start - 1 ? t : t + cfg.start
+      }
+      // The cue's text keeps italics and bold (and the entities it already has); any other tag goes.
+      function clean(s) { return s.replace(/<(?!\/?(?:i|b)>)[^>]*>/gi, '') }
+      function render() {
+        var t = episodeTime()
+        var out = []
+        for (var i = 0; i < cues.length; i++) {
+          var c = cues[i]
+          if (c.s <= t && t < c.e) out.push(c.t)
+        }
+        var html = clean(out.join('\n'))
+        if (subsBox.innerHTML !== html) subsBox.innerHTML = html
+      }
+      setInterval(render, 200)
+
+      // ---- the load: take what the app sent
+      player.setMessageInterceptor(cast.framework.messages.MessageType.LOAD, function (request) {
+        var data = (request.media && request.media.customData) || {}
+        cfg = { start: data.start || 0, subs: data.subs || [], active: data.active === undefined ? -1 : data.active }
+        cues = []
+        complete = false
+        subsBox.textContent = ''
+        say('')
+        fetchCues()
+        return request
+      })
+
+      // ---- the app's messages: which subtitle, and a line to show
+      context.addCustomMessageListener(NS, function (e) {
+        var m = e.data || {}
+        if (m.type === 'subtitle') {
+          cfg.active = typeof m.id === 'number' ? m.id : -1
+          subsBox.textContent = ''
+          fetchCues()
+        } else if (m.type === 'text') {
+          say(m.text || '', m.ms || 0)
+        }
+      })
+
+      // ---- what is on screen
+      function update() {
+        var state = player.getPlayerState()
+        var on = state === cast.framework.messages.PlayerState.IDLE
+        idle.className = on ? '' : 'off'
+        if (on) { subsBox.textContent = ''; cues = [] }
+        if (state === cast.framework.messages.PlayerState.PLAYING) say('')
+      }
+      player.addEventListener(events.EventType.PLAYER_STATE_CHANGED, update)
+      player.addEventListener(events.EventType.MEDIA_STATUS, update)
+      player.addEventListener(events.EventType.ERROR, function (e) {
+        say('No se pudo reproducir este video en la tele.', 8000)
+      })
+
+      var options = new cast.framework.CastReceiverOptions()
+      options.disableIdleTimeout = true
+      options.customNamespaces = {}
+      options.customNamespaces[NS] = cast.framework.system.MessageType.JSON
+      options.playbackConfig = new cast.framework.PlaybackConfig()
+      // A growing list: the player asks for it again, and does not give up on a late segment.
+      options.playbackConfig.manifestRequestHandler = function (r) { r.withCredentials = false }
+      options.playbackConfig.autoResumeDuration = 3
+      context.start(options)
+      update()
+    })()
+  </script>
+</body>
+</html>
