@@ -47,6 +47,7 @@
       var complete = false
       var pollTimer = null
       var noteTimer = null
+      var holdUntil = 0
 
       function say(text, ms) {
         clearTimeout(noteTimer)
@@ -123,6 +124,8 @@
         complete = false
         subsBox.textContent = ''
         say('')
+        holdUntil = Date.now() + 15000
+        idle.className = 'off'
         fetchCues()
         return request
       })
@@ -131,7 +134,9 @@
       function update() {
         try {
           var state = player.getPlayerState()
-          var on = state === cast.framework.messages.PlayerState.IDLE
+          // The mark shows only while nothing plays: not for a while after a load asked for something
+          // (the player may still say idle for a moment), and never while there is a picture.
+          var on = state === cast.framework.messages.PlayerState.IDLE && Date.now() > holdUntil
           idle.className = on ? '' : 'off'
           if (on) { subsBox.textContent = ''; cues = [] }
           if (state === cast.framework.messages.PlayerState.PLAYING) say('')
@@ -173,6 +178,8 @@
 
       context.start(options)
       update()
+      // What the events miss, this catches.
+      setInterval(update, 500)
     })()
   </script>
 </body>
