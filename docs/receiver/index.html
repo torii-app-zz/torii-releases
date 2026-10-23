@@ -10,15 +10,15 @@
     html, body { margin: 0; height: 100%; overflow: hidden; background: #000; font-family: system-ui, 'Segoe UI', Roboto, sans-serif; color: #f4f4f8; }
     cast-media-player { position: fixed; inset: 0; --splash-image: none; --progress-color: #8b5cf6; --playback-logo-image: none; }
     /* Nothing playing: the mark and one line. */
-    #idle { z-index: 10; position: fixed; inset: 0; display: grid; place-content: center; justify-items: center; gap: 2.2vh; background: radial-gradient(120% 70% at 50% 0%, #241a44 0%, #0b0b12 60%); transition: opacity 0.4s; }
-    #idle img { width: 16vh; height: 16vh; }
+    #idle { z-index: 10; position: fixed; inset: 0; display: grid; place-content: center; justify-items: center; gap: 2.2vh; background: radial-gradient(120% 70% at 50% 0%, #241a44 0%, #0b0b12 60%); }
+    #idle svg { width: 16vh; height: 16vh; }
     #idle p { margin: 0; font-size: 3.4vh; color: #c9c9da; }
     #idle.off { opacity: 0; pointer-events: none; }
     /* The line the app asks to show (preparing, an error). */
     #note { z-index: 12; position: fixed; left: 50%; bottom: 8vh; transform: translateX(-50%); max-width: 80vw; padding: 1.4vh 3vh; border-radius: 99px; background: rgb(11 11 18 / 0.85); font-size: 3vh; text-align: center; display: none; }
     #note.on { display: block; }
     /* The subtitles: drawn here, from the cues the phone gives. */
-    #subs { z-index: 11; position: fixed; left: 8vw; right: 8vw; bottom: 7vh; text-align: center; font-size: 4.2vh; line-height: 1.25; font-weight: 600; color: #fff; text-shadow: 0 0 0.5vh #000, 0 0 0.5vh #000, 0 0.2vh 0.8vh #000, 0 0 1.6vh #000; white-space: pre-line; pointer-events: none; }
+    #subs { z-index: 11; position: fixed; left: 8vw; right: 8vw; bottom: 7vh; text-align: center; font-size: 4.2vh; line-height: 1.25; font-weight: 600; color: #fff; text-shadow: -0.25vh 0 #000, 0.25vh 0 #000, 0 -0.25vh #000, 0 0.25vh #000, -0.2vh -0.2vh #000, 0.2vh -0.2vh #000, -0.2vh 0.2vh #000, 0.2vh 0.2vh #000; white-space: pre-line; pointer-events: none; }
     #subs i { font-style: italic; }
     #subs b { font-weight: 800; }
   </style>
@@ -26,7 +26,16 @@
 <body>
   <cast-media-player></cast-media-player>
   <div id="subs"></div>
-  <div id="idle"><img src="logo.png" alt="" /><p>Empezá a reproducir un video</p></div>
+  <div id="idle"><svg viewBox="192 192 640 640" aria-hidden="true">
+      <clipPath id="b"><rect x="192" y="192" width="640" height="640" rx="120"/></clipPath>
+      <rect x="192" y="192" width="640" height="640" rx="120" fill="#fff"/>
+      <g fill="#0b0b12" clip-path="url(#b)">
+        <path d="M250 330 C323.4 372.7 700.6 372.7 774 330 L756 400 C687.7 442.7 336.3 442.7 268 400 Z"/>
+        <rect x="294" y="478" width="436" height="54"/>
+        <rect x="352" y="420" width="72" height="420"/>
+        <rect x="600" y="420" width="72" height="420"/>
+      </g>
+    </svg><p>Empezá a reproducir un video</p></div>
   <div id="note" role="status"></div>
   <script src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
   <script>
