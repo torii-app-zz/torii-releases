@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="192 192 640 640">
+  <!-- Torii's mark: the white seal with the gate cut out (the app's icon). -->
+  <clipPath id="b"><rect x="192" y="192" width="640" height="640" rx="120"/></clipPath>
+  <rect x="192" y="192" width="640" height="640" rx="120" fill="#fff"/>
+  <g fill="#0b0b12" clip-path="url(#b)">
+    <path d="M250 330 C323.4 372.7 700.6 372.7 774 330 L756 400 C687.7 442.7 336.3 442.7 268 400 Z"/>
+    <rect x="294" y="478" width="436" height="54"/>
+    <rect x="352" y="420" width="72" height="420"/>
+    <rect x="600" y="420" width="72" height="420"/>
+  </g>
+</svg>
