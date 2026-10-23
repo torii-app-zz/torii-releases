@@ -16,8 +16,6 @@
     /* What shows over the picture when it is paused, or just began: the name, a thin bar, the times. */
     #osd { z-index: 9; position: fixed; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.35s; display: none; }
     #osd.on { opacity: 1; }
-    /* On a device with its own controls on pause (Google TV): only the symbol in the middle, no second bar. */
-    #osd.sys .top, #osd.sys .bottom { display: none; }
     #osd .top { position: absolute; left: 0; right: 0; top: 0; padding: 4vh 5vw 9vh; background: linear-gradient(to bottom, rgb(0 0 0 / 0.65), transparent); display: flex; align-items: center; gap: 3vw; }
     #osd .name { flex: 1 1 auto; min-width: 0; font-size: 3.4vh; font-weight: 600; text-shadow: 0 0 1vh rgb(0 0 0 / 0.8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     #osd .mark { flex: none; width: 7vh; height: 7vh; filter: drop-shadow(0 0 0.8vh rgb(0 0 0 / 0.6)); }
@@ -172,8 +170,7 @@
           var first = null
           for (var j = 0; j < cues.length; j++) if (cues[j].e > t) { first = cues[j]; break }
           d.textContent = 'tv=' + (player.getCurrentTimeSec() || 0).toFixed(2) + '  start=' + cfg.start.toFixed(2) + '  ep=' + t.toFixed(2) +
-            '\nui=' + (customUi ? 'own' : 'google') + '  cast-media-player=' + document.getElementsByTagName('cast-media-player').length + + '  hud=' + (ownHud ? 'sys' : 'own') + '
-' + navigator.userAgent.slice(0, 90) +
+            '\nui=' + (customUi ? 'own' : 'google') + '  cast-media-player=' + document.getElementsByTagName('cast-media-player').length +
             '\ncues=' + cues.length + (first ? '  next ' + first.s.toFixed(2) + '-' + first.e.toFixed(2) : '') + '  state=' + player.getPlayerState()
         }
         var html = out.length ? '<span class="line">' + clean(out.join('\n')) + '</span>' : ''
@@ -234,8 +231,6 @@
         var h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60, x = s % 60
         return (h ? h + ':' + (m < 10 ? '0' : '') : '') + m + ':' + (x < 10 ? '0' : '') + x
       }
-      // Android TV and Google TV draw their own controls when something is paused: ours would be a second bar.
-      var ownHud = /Android/i.test(navigator.userAgent)
       function paintOsd() {
         if (!customUi) return
         var S = cast.framework.messages.PlayerState
@@ -243,9 +238,8 @@
         var shown = state !== S.IDLE
         var show = shown && (state !== S.PLAYING || Date.now() < osdUntil)
         osd.style.display = shown ? 'block' : 'none'
-        var bars = !(ownHud && state === S.PAUSED)
-        osd.className = (show ? 'on' : '') + (bars ? '' : ' sys')
-        document.body.classList.toggle('osd', show && bars)
+        osd.className = show ? 'on' : ''
+        document.body.classList.toggle('osd', show)
         document.getElementById('osd-pause').className = state === S.PAUSED ? 'pause on' : 'pause'
         waitRing.style.display = state === S.BUFFERING || state === S.LOADING ? 'block' : 'none'
         if (!show) return
