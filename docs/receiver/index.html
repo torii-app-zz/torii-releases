@@ -19,6 +19,7 @@
     #note.on { display: block; }
     /* The subtitles: drawn here, from the cues the phone gives. */
     #subs { z-index: 11; position: fixed; left: 8vw; right: 8vw; bottom: 7vh; text-align: center; font-size: 4.2vh; line-height: 1.25; font-weight: 600; color: #fff; text-shadow: -0.25vh 0 #000, 0.25vh 0 #000, 0 -0.25vh #000, 0 0.25vh #000, -0.2vh -0.2vh #000, 0.2vh -0.2vh #000, -0.2vh 0.2vh #000, 0.2vh 0.2vh #000; white-space: pre-line; pointer-events: none; }
+    #dbg { z-index: 20; position: fixed; left: 1vh; top: 1vh; padding: 0.6vh 1vh; background: rgb(0 0 0 / 0.7); font: 2.2vh/1.3 monospace; color: #9f9; white-space: pre; display: none; }
     #subs i { font-style: italic; }
     #subs b { font-weight: 800; }
   </style>
@@ -37,6 +38,7 @@
       </g>
     </svg><p>Empezá a reproducir un video</p></div>
   <div id="note" role="status"></div>
+  <div id="dbg"></div>
   <script src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
   <script>
     (function () {
@@ -51,7 +53,7 @@
 
       // What the app says of this video (it comes in the load): where in the episode the
       // run begins, and the subtitles to draw.
-      var cfg = { start: 0, subs: [], active: -1 }
+      var cfg = { start: 0, subs: [], active: -1, debug: false }
       var cues = []
       var complete = false
       var pollTimer = null
@@ -120,6 +122,14 @@
           var c = cues[i]
           if (c.s <= t && t < c.e) out.push(c.t)
         }
+        if (cfg.debug) {
+          var d = document.getElementById('dbg')
+          d.style.display = 'block'
+          var first = null
+          for (var j = 0; j < cues.length; j++) if (cues[j].e > t) { first = cues[j]; break }
+          d.textContent = 'tv=' + (player.getCurrentTimeSec() || 0).toFixed(2) + '  start=' + cfg.start.toFixed(2) + '  ep=' + t.toFixed(2) +
+            '\ncues=' + cues.length + (first ? '  next ' + first.s.toFixed(2) + '-' + first.e.toFixed(2) : '') + '  state=' + player.getPlayerState()
+        }
         var html = clean(out.join('\n'))
         if (subsBox.innerHTML !== html) subsBox.innerHTML = html
       }
@@ -128,7 +138,7 @@
       // ---- the load: take what the app sent
       player.setMessageInterceptor(cast.framework.messages.MessageType.LOAD, function (request) {
         var data = (request.media && request.media.customData) || {}
-        cfg = { start: data.start || 0, subs: data.subs || [], active: data.active === undefined ? -1 : data.active }
+        cfg = { start: data.start || 0, subs: data.subs || [], active: data.active === undefined ? -1 : data.active, debug: !!data.debug }
         cues = []
         complete = false
         subsBox.textContent = ''
