@@ -19,6 +19,10 @@
     #osd .top { position: absolute; left: 0; right: 0; top: 0; padding: 4vh 5vw 9vh; background: linear-gradient(to bottom, rgb(0 0 0 / 0.65), transparent); display: flex; align-items: center; gap: 3vw; }
     #osd .name { flex: 1 1 auto; min-width: 0; font-size: 3.4vh; font-weight: 600; text-shadow: 0 0 1vh rgb(0 0 0 / 0.8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     #osd .mark { flex: none; width: 7vh; height: 7vh; filter: drop-shadow(0 0 0.8vh rgb(0 0 0 / 0.6)); }
+    /* Paused: the symbol in the middle of the picture. */
+    #osd .pause { position: absolute; left: 50%; top: 50%; width: 16vh; height: 16vh; margin: -8vh 0 0 -8vh; border-radius: 50%; background: rgb(0 0 0 / 0.55); display: none; place-items: center; }
+    #osd .pause.on { display: grid; }
+    #osd .pause svg { width: 7vh; height: 7vh; fill: #fff; }
     /* The subtitles go up out of the bar's way while it is there. */
     #subs { transition: bottom 0.35s; }
     body.osd #subs { bottom: 17vh; }
@@ -47,7 +51,7 @@
 </head>
 <body>
   <video id="v" playsinline></video>
-  <div id="osd"><div class="top"><span class="name" id="osd-title"></span><svg class="mark" viewBox="192 192 640 640" aria-hidden="true"><clipPath id="m"><rect x="192" y="192" width="640" height="640" rx="120"/></clipPath><rect x="192" y="192" width="640" height="640" rx="120" fill="#fff"/><g fill="#0b0b12" clip-path="url(#m)"><path d="M250 330 C323.4 372.7 700.6 372.7 774 330 L756 400 C687.7 442.7 336.3 442.7 268 400 Z"/><rect x="294" y="478" width="436" height="54"/><rect x="352" y="420" width="72" height="420"/><rect x="600" y="420" width="72" height="420"/></g></svg></div><div class="bottom"><div class="track"><div class="fill" id="osd-fill"></div></div><div class="times"><span id="osd-now">0:00</span><span id="osd-total">0:00</span></div></div></div>
+  <div id="osd"><div class="pause" id="osd-pause"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="5" height="18" rx="1.5"/><rect x="14" y="3" width="5" height="18" rx="1.5"/></svg></div><div class="top"><span class="name" id="osd-title"></span><svg class="mark" viewBox="192 192 640 640" aria-hidden="true"><clipPath id="m"><rect x="192" y="192" width="640" height="640" rx="120"/></clipPath><rect x="192" y="192" width="640" height="640" rx="120" fill="#fff"/><g fill="#0b0b12" clip-path="url(#m)"><path d="M250 330 C323.4 372.7 700.6 372.7 774 330 L756 400 C687.7 442.7 336.3 442.7 268 400 Z"/><rect x="294" y="478" width="436" height="54"/><rect x="352" y="420" width="72" height="420"/><rect x="600" y="420" width="72" height="420"/></g></svg></div><div class="bottom"><div class="track"><div class="fill" id="osd-fill"></div></div><div class="times"><span id="osd-now">0:00</span><span id="osd-total">0:00</span></div></div></div>
   <div id="wait"></div>
   <div id="subs"></div>
   <div id="idle"><svg viewBox="192 192 640 640" aria-hidden="true">
@@ -235,6 +239,7 @@
         osd.style.display = shown ? 'block' : 'none'
         osd.className = show ? 'on' : ''
         document.body.classList.toggle('osd', show)
+        document.getElementById('osd-pause').className = state === S.PAUSED ? 'pause on' : 'pause'
         waitRing.style.display = state === S.BUFFERING || state === S.LOADING ? 'block' : 'none'
         if (!show) return
         var d = player.getDurationSec() || 0
