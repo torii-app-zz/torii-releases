@@ -170,6 +170,7 @@
           var first = null
           for (var j = 0; j < cues.length; j++) if (cues[j].e > t) { first = cues[j]; break }
           d.textContent = 'tv=' + (player.getCurrentTimeSec() || 0).toFixed(2) + '  start=' + cfg.start.toFixed(2) + '  ep=' + t.toFixed(2) +
+            '\nui=' + (customUi ? 'own' : 'google') + '  cast-media-player=' + document.getElementsByTagName('cast-media-player').length +
             '\ncues=' + cues.length + (first ? '  next ' + first.s.toFixed(2) + '-' + first.e.toFixed(2) : '') + '  state=' + player.getPlayerState()
         }
         var html = out.length ? '<span class="line">' + clean(out.join('\n')) + '</span>' : ''
