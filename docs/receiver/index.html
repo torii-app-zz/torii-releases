@@ -9,6 +9,17 @@
     * { box-sizing: border-box; }
     html, body { margin: 0; height: 100%; overflow: hidden; background: #000; font-family: system-ui, 'Segoe UI', Roboto, sans-serif; color: #f4f4f8; }
     cast-media-player { position: fixed; inset: 0; --splash-image: none; --progress-color: #8b5cf6; --playback-logo-image: none; }
+    #v { position: fixed; inset: 0; width: 100%; height: 100%; background: #000; object-fit: contain; }
+    /* What shows over the picture when it is paused, or just began: the name, a thin bar, the times. */
+    #osd { z-index: 9; position: fixed; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.35s; display: none; }
+    #osd.on { opacity: 1; }
+    #osd .top { position: absolute; left: 0; right: 0; top: 0; padding: 4vh 5vw 9vh; background: linear-gradient(to bottom, rgb(0 0 0 / 0.65), transparent); font-size: 3.4vh; font-weight: 600; text-shadow: 0 0 1vh rgb(0 0 0 / 0.8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #osd .bottom { position: absolute; left: 0; right: 0; bottom: 0; padding: 9vh 5vw 4.5vh; background: linear-gradient(to top, rgb(0 0 0 / 0.65), transparent); }
+    #osd .track { height: 0.8vh; border-radius: 9vh; background: rgb(255 255 255 / 0.25); overflow: hidden; }
+    #osd .fill { height: 100%; width: 0; background: #8b5cf6; border-radius: 9vh; }
+    #osd .times { display: flex; justify-content: space-between; margin-top: 1.4vh; font-size: 2.6vh; font-variant-numeric: tabular-nums; color: #e6e6f0; }
+    #wait { z-index: 9; position: fixed; left: 50%; top: 50%; width: 9vh; height: 9vh; margin: -4.5vh 0 0 -4.5vh; border: 0.7vh solid rgb(255 255 255 / 0.2); border-top-color: #fff; border-radius: 50%; animation: spin 0.9s linear infinite; display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
     /* Nothing playing: the mark and one line. */
     #idle { z-index: 10; position: fixed; inset: 0; display: grid; place-content: center; justify-items: center; gap: 2.2vh; background: radial-gradient(120% 70% at 50% 0%, #241a44 0%, #0b0b12 60%); }
     #idle svg { width: 16vh; height: 16vh; }
@@ -27,7 +38,9 @@
   </style>
 </head>
 <body>
-  <cast-media-player></cast-media-player>
+  <video id="v" playsinline></video>
+  <div id="osd"><div class="top" id="osd-title"></div><div class="bottom"><div class="track"><div class="fill" id="osd-fill"></div></div><div class="times"><span id="osd-now">0:00</span><span id="osd-total">0:00</span></div></div></div>
+  <div id="wait"></div>
   <div id="subs"></div>
   <div id="idle"><svg viewBox="192 192 640 640" aria-hidden="true">
       <clipPath id="b"><rect x="192" y="192" width="640" height="640" rx="120"/></clipPath>
@@ -156,6 +169,8 @@
       // ---- the load: take what the app sent
       player.setMessageInterceptor(cast.framework.messages.MessageType.LOAD, function (request) {
         var data = (request.media && request.media.customData) || {}
+        title = (request.media && request.media.metadata && request.media.metadata.title) || ''
+        osdUntil = Date.now() + 6000
         cfg = { start: data.start || 0, subs: data.subs || [], active: data.active === undefined ? -1 : data.active, debug: !!data.debug }
         cues = []
         complete = false
@@ -182,6 +197,53 @@
 
       // ---- the receiver starts: the channel with the app is declared first, and a step that
       // fails must not keep the receiver from telling the phone it is ready.
+      // Our own picture and bar, over a plain video element. If this player does not take it, Google's own is used.
+      var video = document.getElementById('v')
+      var customUi = false
+      try {
+        if (typeof player.setMediaElement === 'function') {
+          player.setMediaElement(video)
+          customUi = true
+        }
+      } catch (e) {}
+      if (!customUi) {
+        video.remove()
+        document.body.insertBefore(document.createElement('cast-media-player'), document.body.firstChild)
+      }
+      var osd = document.getElementById('osd')
+      var waitRing = document.getElementById('wait')
+      var title = ''
+      var osdUntil = 0
+      function mmss(s) {
+        s = Math.max(0, Math.floor(s || 0))
+        var h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60, x = s % 60
+        return (h ? h + ':' + (m < 10 ? '0' : '') : '') + m + ':' + (x < 10 ? '0' : '') + x
+      }
+      function paintOsd() {
+        if (!customUi) return
+        var S = cast.framework.messages.PlayerState
+        var state = player.getPlayerState()
+        var shown = state !== S.IDLE
+        var show = shown && (state !== S.PLAYING || Date.now() < osdUntil)
+        osd.style.display = shown ? 'block' : 'none'
+        osd.className = show ? 'on' : ''
+        waitRing.style.display = state === S.BUFFERING || state === S.LOADING ? 'block' : 'none'
+        if (!show) return
+        var d = player.getDurationSec() || 0
+        var t = player.getCurrentTimeSec() || 0
+        document.getElementById('osd-title').textContent = title
+        document.getElementById('osd-fill').style.width = (d > 0 ? Math.min(100, (t / d) * 100) : 0) + '%'
+        document.getElementById('osd-now').textContent = mmss(t)
+        document.getElementById('osd-total').textContent = mmss(d)
+      }
+      setInterval(paintOsd, 250)
+      // The bar comes up for a moment when a video begins, plays again or is moved.
+      ;['PLAYING', 'SEEKED', 'LOADED_DATA'].forEach(function (name) {
+        var type = events.EventType[name]
+        if (!type) return
+        try { player.addEventListener(type, function () { osdUntil = Date.now() + 4000 }) } catch (e) {}
+      })
+
       var options = new cast.framework.CastReceiverOptions()
       options.disableIdleTimeout = true
       options.customNamespaces = {}
