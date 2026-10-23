@@ -195,8 +195,15 @@
       })
       if (events.EventType.ERROR) {
         try {
+          // An error while one video is replaced by another is not the video's: it counts only if the
+          // player is still idle a moment later.
           player.addEventListener(events.EventType.ERROR, function () {
-            say('No se pudo reproducir este video en la tele.', 8000)
+            setTimeout(function () {
+              var state = player.getPlayerState()
+              if (state === cast.framework.messages.PlayerState.IDLE && Date.now() > holdUntil) {
+                say('No se pudo reproducir este video en la tele.', 8000)
+              }
+            }, 2500)
           })
         } catch (e) {}
       }
