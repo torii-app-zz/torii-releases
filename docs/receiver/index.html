@@ -56,6 +56,8 @@
         if (ms) noteTimer = setTimeout(function () { note.className = '' }, ms)
       }
 
+      window.addEventListener('error', function (e) { say('Receptor: ' + e.message, 8000) })
+
       // ---- the subtitles
       function activeSub() {
         for (var i = 0; i < cfg.subs.length; i++) if (cfg.subs[i].id === cfg.active) return cfg.subs[i]
@@ -125,40 +127,50 @@
         return request
       })
 
-      // ---- the app's messages: which subtitle, and a line to show
-      context.addCustomMessageListener(NS, function (e) {
-        var m = e.data || {}
-        if (m.type === 'subtitle') {
-          cfg.active = typeof m.id === 'number' ? m.id : -1
-          subsBox.textContent = ''
-          fetchCues()
-        } else if (m.type === 'text') {
-          say(m.text || '', m.ms || 0)
-        }
-      })
-
       // ---- what is on screen
       function update() {
-        var state = player.getPlayerState()
-        var on = state === cast.framework.messages.PlayerState.IDLE
-        idle.className = on ? '' : 'off'
-        if (on) { subsBox.textContent = ''; cues = [] }
-        if (state === cast.framework.messages.PlayerState.PLAYING) say('')
+        try {
+          var state = player.getPlayerState()
+          var on = state === cast.framework.messages.PlayerState.IDLE
+          idle.className = on ? '' : 'off'
+          if (on) { subsBox.textContent = ''; cues = [] }
+          if (state === cast.framework.messages.PlayerState.PLAYING) say('')
+        } catch (e) {}
       }
-      player.addEventListener(events.EventType.PLAYER_STATE_CHANGED, update)
-      player.addEventListener(events.EventType.MEDIA_STATUS, update)
-      player.addEventListener(events.EventType.ERROR, function (e) {
-        say('No se pudo reproducir este video en la tele.', 8000)
-      })
 
+      // ---- the receiver starts: the channel with the app is declared first, and a step that
+      // fails must not keep the receiver from telling the phone it is ready.
       var options = new cast.framework.CastReceiverOptions()
       options.disableIdleTimeout = true
       options.customNamespaces = {}
       options.customNamespaces[NS] = cast.framework.system.MessageType.JSON
-      options.playbackConfig = new cast.framework.PlaybackConfig()
-      // A growing list: the player asks for it again, and does not give up on a late segment.
-      options.playbackConfig.manifestRequestHandler = function (r) { r.withCredentials = false }
-      options.playbackConfig.autoResumeDuration = 3
+      try {
+        options.playbackConfig = new cast.framework.PlaybackConfig()
+        options.playbackConfig.autoResumeDuration = 3
+      } catch (e) { say('Receptor: ' + e.message, 8000) }
+
+      // ---- the app's messages: which subtitle, and a line to show
+      try {
+        context.addCustomMessageListener(NS, function (e) {
+          var m = e.data || {}
+          if (m.type === 'subtitle') {
+            cfg.active = typeof m.id === 'number' ? m.id : -1
+            subsBox.textContent = ''
+            fetchCues()
+          } else if (m.type === 'text') {
+            say(m.text || '', m.ms || 0)
+          }
+        })
+      } catch (e) { say('Receptor: ' + e.message, 8000) }
+
+      try {
+        player.addEventListener(events.EventType.PLAYER_STATE_CHANGED, update)
+        player.addEventListener(events.EventType.MEDIA_STATUS, update)
+        player.addEventListener(events.EventType.ERROR, function () {
+          say('No se pudo reproducir este video en la tele.', 8000)
+        })
+      } catch (e) { say('Receptor: ' + e.message, 8000) }
+
       context.start(options)
       update()
     })()
