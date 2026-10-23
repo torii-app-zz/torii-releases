@@ -131,10 +131,9 @@
         }
         return out
       }
-      // The time of the episode, whichever way the player counts (from 0 or from where the run begins).
+      // The list is the whole episode, so the player's time is the episode's.
       function episodeTime() {
-        var t = player.getCurrentTimeSec() || 0
-        return t >= cfg.start - 1 ? t : t + cfg.start
+        return player.getCurrentTimeSec() || 0
       }
       // The cue's text keeps italics and bold (and the entities it already has); any other tag goes.
       function clean(s) { return s.replace(/<(?!\/?(?:i|b)>)[^>]*>/gi, '') }
