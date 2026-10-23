@@ -168,13 +168,19 @@
         })
       } catch (e) { say('Receptor: ' + e.message, 8000) }
 
-      try {
-        player.addEventListener(events.EventType.PLAYER_STATE_CHANGED, update)
-        player.addEventListener(events.EventType.MEDIA_STATUS, update)
-        player.addEventListener(events.EventType.ERROR, function () {
-          say('No se pudo reproducir este video en la tele.', 8000)
-        })
-      } catch (e) { say('Receptor: ' + e.message, 8000) }
+      // Each one on its own: a name this version does not have is skipped (update also runs on a timer).
+      ;['MEDIA_STATUS', 'PLAYING', 'PAUSE', 'BUFFERING', 'ENDED', 'PLAYER_LOAD_COMPLETE', 'REQUEST_STOP'].forEach(function (name) {
+        var type = events.EventType[name]
+        if (!type) return
+        try { player.addEventListener(type, update) } catch (e) {}
+      })
+      if (events.EventType.ERROR) {
+        try {
+          player.addEventListener(events.EventType.ERROR, function () {
+            say('No se pudo reproducir este video en la tele.', 8000)
+          })
+        } catch (e) {}
+      }
 
       context.start(options)
       update()
