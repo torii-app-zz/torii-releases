@@ -4,13 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0b0b12" />
-  <title>Torii · Tu anime en un solo lugar</title>
-  <meta name="description" content="Torii: catálogo, calendario y reproductor para ver anime, películas y series. Descargá la última versión para Windows y Android." />
+  <title>Torii · Anime, películas y series</title>
+  <meta name="description" content="Torii: anime, películas y series en la PC, el celular y la tele. Descargá la última versión para Windows y Android." />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <meta property="og:title" content="Torii" />
-  <meta property="og:description" content="Tu anime en un solo lugar. Para Windows y Android." />
+  <meta property="og:description" content="Anime, películas y series en un solo lugar. Para Windows y Android." />
   <meta property="og:image" content="img/inicio.jpg" />
   <style>
     :root {
@@ -127,7 +127,8 @@
     h2 { margin: 0.5rem 0 0; text-align: center; font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: -0.02em; line-height: 1.12; }
     .sub { margin: 0.8rem auto 0; max-width: 32rem; text-align: center; color: var(--muted); }
 
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; margin-top: 3rem; }
+    .features { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-top: 3rem; }
+    .features .feat { flex: 0 1 calc(25% - 0.75rem); min-width: 15rem; }
     .feat {
       padding: 1.5rem; border-radius: 20px; background: var(--card); border: 1px solid var(--line);
       transition: transform 0.25s, border-color 0.25s, background 0.25s;
@@ -220,8 +221,8 @@
           <rect x="192" y="192" width="640" height="640" fill="#c4b5fd" mask="url(#m)" />
         </svg>
         <span class="tag" id="tag">Para Windows y Android</span>
-        <h1>Tu anime, en <em>un solo lugar</em>.</h1>
-        <p class="lead">Catálogo, calendario y un reproductor propio. En la PC y en el celular.</p>
+        <h1>Anime, películas y series en <em>un solo lugar</em>.</h1>
+        <p class="lead">Tu catálogo y tu biblioteca en la PC, el celular y la tele.</p>
         <div class="cta">
           <a class="btn main" id="cta-main" href="#descargar"></a>
           <a class="btn" id="cta-alt" href="#descargar"></a>
@@ -229,8 +230,8 @@
         <p class="fine" id="fine">Gratis · Sin cuentas</p>
 
         <div class="stage">
-          <img class="shot" src="img/filas.jpg" alt="Inicio de Torii en la PC" width="1440" height="900" />
-          <div class="phone"><img src="img/cel-ficha.jpg" alt="Ficha de una serie en el celular" width="560" height="1214" /></div>
+          <img class="shot" src="img/inicio.jpg" alt="Inicio de Torii en la PC" width="1440" height="900" />
+          <div class="phone"><img src="img/cel-pelicula.jpg" alt="Ficha de una película en el celular" width="560" height="1214" /></div>
         </div>
       </div>
     </div>
@@ -238,37 +239,42 @@
     <section id="funciones">
       <div class="wrap">
         <p class="kicker rv">Funciones</p>
-        <h2 class="rv">Todo lo que necesitás para ver</h2>
+        <h2 class="rv">Todo en una sola app</h2>
         <div class="features">
           <div class="feat rv">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg></div>
-            <h3>Catálogo completo</h3>
-            <p>Temporadas, tendencias y fichas con episodios, puntajes y reseñas.</p>
+            <h3>Catálogo</h3>
+            <p>Anime, películas y series, con fichas, puntajes y reseñas.</p>
           </div>
           <div class="feat rv">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg></div>
             <h3>Calendario</h3>
-            <p>Qué sale hoy y esta semana, y lo que seguís.</p>
+            <p>Los estrenos de la semana y de tus series.</p>
           </div>
           <div class="feat rv">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10.5 9.5 4 2.5-4 2.5z"/></svg></div>
-            <h3>Reproductor propio</h3>
-            <p>Subtítulos, pistas de audio, saltar intros y siguiente capítulo.</p>
+            <h3>Reproductor</h3>
+            <p>Reproductor integrado con subtítulos y pistas de audio.</p>
           </div>
           <div class="feat rv">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h3v16H5zM10.5 4h3v16h-3zM16 6.5l2.8-.9 3 13.5-2.8.9z"/></svg></div>
-            <h3>Tu biblioteca</h3>
-            <p>Anime, películas y series. Sincronizá con AniList y MyAnimeList, o importá Letterboxd.</p>
+            <h3>Biblioteca</h3>
+            <p>Tu lista en un solo lugar. Compatible con AniList, MyAnimeList y Letterboxd.</p>
           </div>
           <div class="feat rv">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 8h11a4.5 4.5 0 0 1 4.4 5.4l-.6 3a2.6 2.6 0 0 1-4.4 1.3L15 16H9l-1.9 1.7a2.6 2.6 0 0 1-4.4-1.3l-.6-3A4.5 4.5 0 0 1 6.5 8z"/><path d="M8 10.5v3M6.5 12h3M16 11h.01M18 13h.01"/></svg></div>
-            <h3>Control con mando</h3>
-            <p>Toda la app se maneja con el control, sin mouse.</p>
+            <h3>Mando</h3>
+            <p>Navegación completa con control de juegos.</p>
+          </div>
+          <div class="feat rv">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="12" rx="2.5"/><path d="M8 20.5h8M12 16.5v4"/><path d="M7.5 12.5a3.2 3.2 0 0 1 3 3M7.5 9.5a6.2 6.2 0 0 1 6 6" transform="translate(-1 -3.5) scale(.9)"/></svg></div>
+            <h3>Tele</h3>
+            <p>Reproducí en la tele desde el celular.</p>
           </div>
           <div class="feat rv">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></div>
-            <h3>PC y celular</h3>
-            <p>Vinculá tu celular con la PC y transmití a la tele.</p>
+            <h3>Celular</h3>
+            <p>Vinculalo con la PC para llevar tu biblioteca.</p>
           </div>
         </div>
       </div>
@@ -277,7 +283,7 @@
     <section id="capturas">
       <div class="wrap">
         <p class="kicker rv">Capturas</p>
-        <h2 class="rv">Hecha para mirar</h2>
+        <h2 class="rv">Una interfaz pensada para mirar</h2>
         <div class="tabs rv" role="tablist">
           <button class="tab" role="tab" aria-selected="true" data-i="0">Inicio</button>
           <button class="tab" role="tab" aria-selected="false" data-i="1">Novedades</button>
@@ -292,7 +298,7 @@
         </div>
         <div class="phones">
           <div class="phone rv"><img src="img/cel-inicio.jpg" alt="Inicio en el celular" loading="lazy" /></div>
-          <div class="phone rv"><img src="img/cel-ficha.jpg" alt="Ficha en el celular" loading="lazy" /></div>
+          <div class="phone rv"><img src="img/cel-pelicula.jpg" alt="Ficha de una película en el celular" loading="lazy" /></div>
           <div class="phone rv"><img src="img/cel-calendario.jpg" alt="Calendario en el celular" loading="lazy" /></div>
         </div>
       </div>
@@ -302,7 +308,7 @@
       <div class="wrap">
         <p class="kicker rv">Descargar</p>
         <h2 class="rv">Siempre la última versión</h2>
-        <p class="sub rv">Las actualizaciones llegan solas desde la propia app.</p>
+        <p class="sub rv">Las actualizaciones se instalan desde la propia app.</p>
         <div class="dl">
           <div class="card rv" id="card-win">
             <h3>Windows</h3>
@@ -312,7 +318,7 @@
               Descargar para Windows
             </a>
             <ul>
-              <li>Instalador, sin pasos raros</li>
+              <li>Instalador para Windows 10 y 11</li>
               <li>Si Windows muestra un aviso: Más información → Ejecutar de todas formas</li>
             </ul>
           </div>
@@ -325,18 +331,17 @@
             </a>
             <ul>
               <li>Abrí el archivo descargado</li>
-              <li>Si el celular lo pide, permití instalar desde esta fuente</li>
+              <li>Si el celular lo pide, permití la instalación desde esta fuente</li>
               <li>Para traer tu biblioteca: Ajustes → Vincular celular</li>
             </ul>
           </div>
         </div>
-        <p class="note rv">Torii no trae contenido: agregás tus propias fuentes.</p>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="wrap"><b>Torii</b> · Hecho para disfrutar el anime.</div>
+    <div class="wrap"><b>Torii</b> · Anime, películas y series.</div>
   </footer>
 
   <script>
