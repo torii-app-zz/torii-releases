@@ -88,6 +88,8 @@
       font-style: normal;
       background: linear-gradient(100deg, var(--accent-light), var(--accent) 60%, #f0abfc);
       -webkit-background-clip: text; background-clip: text; color: transparent;
+      /* The letters lean past their box (tight tracking): room, or the last one is cut by the clip. */
+      padding: 0.05em 0.1em 0.12em 0.04em; margin: -0.05em -0.1em -0.12em -0.04em;
     }
     .lead { margin: 1.1rem auto 0; max-width: 34rem; color: var(--muted); font-size: 1.12rem; animation: rise 0.8s 0.26s both; }
     @keyframes rise { from { opacity: 0; transform: translateY(18px); } }
