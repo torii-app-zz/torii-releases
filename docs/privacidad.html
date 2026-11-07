@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0b12" />
+  <title>Política de privacidad · Torii</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+  <style>
+    :root { color-scheme: dark; --bg: #0b0b12; --line: rgb(255 255 255 / 0.09); --text: #f4f4f8; --muted: #a0a0b4; --accent-light: #c4b5fd; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; color: var(--text); background: var(--bg); line-height: 1.65; }
+    a { color: var(--accent-light); }
+    .wrap { width: min(46rem, 100% - 2.5rem); margin-inline: auto; }
+    header { border-bottom: 1px solid var(--line); }
+    .bar { display: flex; align-items: center; gap: 1.2rem; height: 3.75rem; }
+    .brand { display: flex; align-items: center; gap: 0.65rem; font-weight: 700; font-size: 1.1rem; text-decoration: none; color: var(--text); }
+    .brand img { width: 30px; height: 30px; border-radius: 8px; }
+    .bar nav { margin-left: auto; display: flex; gap: 1.2rem; font-size: 0.9rem; }
+    .bar nav a { color: var(--muted); text-decoration: none; }
+    .bar nav a:hover { color: var(--text); }
+    main { padding: 2.5rem 0 4rem; }
+    h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 0.4rem; }
+    h2 { font-size: 1.15rem; margin: 2.2rem 0 0.6rem; }
+    .meta { color: var(--muted); margin: 0 0 1.6rem; font-size: 0.92rem; }
+    p, li { color: rgb(244 244 248 / 0.88); font-size: 0.97rem; }
+    ul { padding-left: 1.2rem; }
+    li { margin: 0.45rem 0; }
+    .lang { margin: 0 0 2rem; font-size: 0.9rem; }
+    .translation { margin-top: 4rem; padding-top: 2.5rem; border-top: 1px solid var(--line); }
+    footer { padding: 2rem 0 3rem; border-top: 1px solid var(--line); text-align: center; color: var(--muted); font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap bar">
+      <a class="brand" href="./"><img src="favicon.svg" alt="" />Torii</a>
+      <nav><a href="./">Descargar</a><a href="terminos.html">Términos de uso</a></nav>
+    </div>
+  </header>
+  <main>
+    <div class="wrap">
+      <p class="lang"><a href="#en">English version below</a></p>
+      <h1 id="es">Política de privacidad</h1>
+      <p class="meta">Versión 1.6 · Vigente desde el 23 de octubre de 2026</p>
+      <h2>1. Qué guarda Torii en tu PC y en tu celular</h2>
+      <ul>
+      <li>En la carpeta de datos de la aplicación (%APPDATA%\app.torii.desktop): tu biblioteca, tu progreso, tus notas, tus ajustes, tus fuentes (con sus direcciones, que pueden incluir claves), los amigos que guardes (su nombre de usuario en AniList o MyAnimeList) y, si conectás tus cuentas de AniList o MyAnimeList, la sesión que cada uno le da a Torii y tu nombre de usuario ahí, una copia temporal de datos del catálogo, y registros técnicos de errores para diagnosticar problemas (por ejemplo, si una pantalla dejó de responder: qué pantalla era y qué había en ella). Los registros no incluyen las direcciones de tus fuentes.</li>
+      <li>En la carpeta de descargas (%LOCALAPPDATA%\app.torii.desktop\downloads): los episodios y películas bajados por torrent, hasta el espacio máximo que elijas en Ajustes. Mientras ves un episodio, Torii puede ir bajando el siguiente; eso se apaga en Ajustes → Reproducción.</li>
+      <li>En %LOCALAPPDATA%\app.torii.desktop: copias achicadas de las imágenes del catálogo, para que carguen más rápido, y, mientras se instala una actualización, su instalador, que se borra después.</li>
+      <li>En el almacenamiento de la ventana de Torii: tus búsquedas recientes y algunas preferencias de la pantalla (como el idioma o el orden elegido en Buscar).</li>
+      <li>Las listas que exportes quedan donde las guardes.</li>
+      <li>En el celular (Android), lo mismo, en el almacenamiento privado de la app: tu biblioteca, progreso, ajustes, fuentes y cuentas conectadas, y los episodios que descargues a propósito para verlos sin conexión. Ningún otro programa del celular puede leerlos.</li>
+      </ul>
+      <p>Nada de esto se envía a los autores de Torii ni a nadie más.</p>
+      <h2>2. Con quién se conecta Torii y qué le manda</h2>
+      <ul>
+      <li>AniList (graphql.anilist.co y sus servidores de imágenes): para el catálogo de anime, las fichas, sus personajes y las imágenes. Recibe lo que busques (series, y personajes para la foto de tu perfil). En Amigos, recibe los nombres de usuario que busques o agregues, para mostrar sus perfiles y listas públicas. En Comunidad, recibe qué reseñas, conversaciones y series abrís, las series que viste últimamente (para traer las discusiones de sus episodios) y los usuarios de los que se muestra la actividad (tus amigos y a quién seguís); si escribís una reseña, AniList la publica con tu cuenta, a la vista de todos salvo que la marques como privada. Si importás tu lista de AniList, recibe el nombre de usuario que escribas, para leer esa lista pública. Si conectás tu cuenta, Torii lee y escribe tu lista de anime de AniList con esa sesión, para que sea igual a tu Biblioteca: lo que agregás, cambiás o quitás en un lado pasa al otro. Podés desconectarla cuando quieras en Ajustes → Cuentas (eso borra la sesión de tu PC; para revocar el permiso del todo, hacelo también en la configuración de tu cuenta de AniList).</li>
+      <li>MyAnimeList (api.myanimelist.net): en Amigos, recibe el nombre de usuario de la persona de MyAnimeList que agregues, para leer su lista pública. Si conectás tu cuenta, Torii lee y escribe tu lista de anime de MyAnimeList con la sesión que te da, para que sea igual a tu Biblioteca, como con AniList, y renueva esa sesión cuando está por vencer. Para saber qué serie es cada anime de esa lista, AniList recibe sus identificadores de MyAnimeList. Podés desconectarla cuando quieras en Ajustes → Cuentas (para revocar el permiso del todo, hacelo también en la configuración de tu cuenta de MyAnimeList).</li>
+      <li>The Movie Database (TMDB: api.themoviedb.org e image.tmdb.org): para el catálogo de películas y series, sus fichas, su reparto, sus tráileres y las imágenes. Recibe lo que busques, el identificador de cada película o serie y el idioma de la aplicación (por ejemplo, &quot;es-AR&quot;). Para &quot;Dónde verla&quot;, Torii le pide los servicios de todos los países y elige el tuyo en tu PC: tu país no se envía. Esos datos de dónde ver los da JustWatch a través de TMDB.</li>
+      <li>ani.zip: el identificador de la serie, para traer sus episodios, la imagen de cada uno y sus identificadores en otros sitios.</li>
+      <li>AniSkip: el identificador de MyAnimeList de la serie y el número de episodio, para saber dónde están el opening y el ending.</li>
+      <li>GitHub (github.com): al arrancar, Torii consulta si hay una versión nueva; si decidís actualizar, la baja de ahí y la instala (en el celular, el instalador de Android te pide confirmar).</li>
+      <li>Google: la app para Android lee los códigos QR con el lector de Google (servicios de Google Play), que procesa la imagen en tu celular y le entrega a Torii solo el texto del código. La cámara se usa únicamente mientras ese lector está abierto.</li>
+      <li>Vincular celular: para llevar tus datos de la PC al celular, la PC escucha en tu red local mientras muestra un código QR, y solo responde a quien tenga ese código (de un solo uso, con una clave que va en él). El celular le dice su nombre (por ejemplo, el modelo) y la PC te pregunta si permitís la vinculación; si aceptás, la PC le entrega una copia de tu biblioteca, listas, progreso, ajustes, fuentes (con sus direcciones y claves), amigos y las sesiones de tus cuentas de AniList y MyAnimeList, cifrada, directo por tu red local. Nada de esto pasa por internet ni por servidores de Torii. El celular reemplaza sus datos por esa copia. Desde entonces, mientras la PC y el celular estén en la misma red, se pasan entre sí, cifrado con la clave de ese vínculo, lo que viste (el progreso de cada episodio) y los cambios de tu biblioteca, para que estén iguales en los dos: la PC responde al celular mientras Torii está abierto, y avisa a la red local que está ahí con un mensaje corto (su puerto y el identificador del vínculo, que no sirve sin la clave). Podés desvincular el celular cuando quieras en Ajustes → Vincular celular, desde cualquiera de los dos.</li>
+      <li>Transmitir a una tele (solo en el celular): si elegís una tele o un Chromecast de tu red, el celular le manda por tu red local el título del episodio y la dirección de un servidor que el celular abre solo mientras transmitís (con una clave aleatoria en la dirección), y la tele baja el video de ahí. Para que la tele pueda reproducirlo, el celular lo convierte en el propio celular (con un programa incluido en la app, FFmpeg) y también le pasa los subtítulos; nada de eso sale de tu red local ni pasa por servidores de Torii. La tele abre la pantalla de Torii (el &quot;receptor&quot;) desde torii-app-zz.github.io, que es una página de GitHub: GitHub ve la dirección IP de tu tele, y la tele le avisa a los servicios de Google Cast que abrió esa aplicación, según las reglas de Google. Al terminar o desconectar, el servidor se cierra.</li>
+      <li>Microsoft: si a tu Windows le falta WebView2, el instalador lo baja de Microsoft.</li>
+      <li>Las fuentes que agregues: reciben lo que se busca (el título y el episodio) o el identificador del episodio, de la película o de la serie. Las carpetas de tu PC no van a ningún lado: Torii solo lee los nombres de sus videos y los reproduce desde ahí, sin cambiarlos.</li>
+      <li>Al reproducir por torrent: los trackers, la red DHT y las personas que comparten el mismo torrent ven tu dirección IP y qué torrent estás compartiendo.</li>
+      <li>Al reproducir un video por su link: el servidor de ese link.</li>
+      <li>Si abrís el tráiler o un servicio de &quot;Dónde verla&quot;, se abre en tu navegador, con las reglas de ese sitio.</li>
+      </ul>
+      <p>Como cualquier conexión a internet, cada uno de estos servicios ve tu dirección IP, y trata los datos según sus propias políticas.</p>
+      <h2>3. Responsable y tus derechos</h2>
+      <p>Los autores de Torii no reúnen ni guardan datos personales tuyos: no tienen una base de datos con tu información. Tus datos en Torii están en tu PC y los controlás vos: podés verlos, cambiarlos o borrarlos desde la aplicación, o borrando sus carpetas. Lo que guarda cada servicio de terceros se rige por su propia política, y tus derechos sobre eso se ejercen ante ese servicio.</p>
+      <p>El titular de los datos personales tiene la facultad de ejercer el derecho de acceso a los mismos en forma gratuita a intervalos no inferiores a seis meses, salvo que se acredite un interés legítimo al efecto conforme lo establecido en el artículo 14, inciso 3 de la Ley Nº 25.326. La Agencia de Acceso a la Información Pública, en su carácter de Órgano de Control de la Ley Nº 25.326, tiene la atribución de atender las denuncias y reclamos que interpongan quienes resulten afectados en sus derechos por incumplimiento de las normas vigentes en materia de protección de datos personales.</p>
+      <h2>4. Menores de edad</h2>
+      <p>Torii no pide la edad ni ningún dato personal. En el catálogo de anime y sus búsquedas no muestra el contenido que AniList marca como para adultos, salvo que actives &quot;Contenido +18&quot; en Ajustes → Apariencia, que pide confirmar que tenés 18 años o más.</p>
+      <h2>5. Cómo borrar tus datos</h2>
+      <p>Desinstalá Torii y borrá las carpetas del punto 1 (%APPDATA%\app.torii.desktop y %LOCALAPPDATA%\app.torii.desktop). En el celular: desinstalá la app, o en los ajustes de Android, Apps → Torii → Almacenamiento → Borrar datos. Los episodios se pueden borrar antes desde Ajustes → Descargas.</p>
+      <h2>6. Cambios y contacto</h2>
+      <p>Si cambiamos esta política, publicamos la versión nueva en la aplicación (Ajustes → Información) y lo contamos en las Novedades. Para consultas: <a href="mailto:toriiappzz@gmail.com">toriiappzz@gmail.com</a>.</p>
+      <section class="translation" lang="en">
+      <h1 id="en">Privacy policy</h1>
+      <p class="meta">Version 1.6 · In force since October 23, 2026</p>
+      <p>This is an English translation of the privacy policy. The Spanish version (PRIVACIDAD.txt) is the one that governs.</p>
+      <h2>1. What Torii keeps on your PC and your phone</h2>
+      <ul>
+      <li>In the application's data folder (%APPDATA%\app.torii.desktop): your library, your progress, your scores, your settings, your sources (with their addresses, which may include keys), the friends you save (their AniList or MyAnimeList username) and, if you connect your AniList or MyAnimeList accounts, the session each one gives Torii and your username there, a temporary copy of catalog data, and technical error logs to diagnose problems (for example, if a screen stopped responding: which screen it was and what was on it). The logs don't include your sources' addresses.</li>
+      <li>In the downloads folder (%LOCALAPPDATA%\app.torii.desktop\downloads): the episodes and movies downloaded by torrent, up to the maximum space you choose in Settings. While you watch an episode, Torii may download the next one; that is turned off in Settings → Playback.</li>
+      <li>In %LOCALAPPDATA%\app.torii.desktop: shrunk copies of the catalog's pictures, so they load faster, and, while an update is being installed, its installer, which is deleted afterwards.</li>
+      <li>In the storage of Torii's window: your recent searches and some screen preferences (such as the language or the order chosen in Search).</li>
+      <li>The lists you export stay where you save them.</li>
+      <li>On the phone (Android), the same, in the app's private storage: your library, progress, settings, sources and connected accounts, and the episodes you download on purpose to watch offline. No other program on the phone can read them.</li>
+      </ul>
+      <p>None of this is sent to the authors of Torii or to anyone else.</p>
+      <h2>2. Who Torii connects to and what it sends them</h2>
+      <ul>
+      <li>AniList (graphql.anilist.co and its image servers): for the anime catalog, series pages, their characters and pictures. It receives what you search for (series, and characters for your profile picture). In Friends, it receives the usernames you search for or add, to show their public profiles and lists. In Community, it receives which reviews, discussions and series you open, the series you watched lately (to bring their episodes' discussions) and the users whose activity is shown (your friends and whom you follow); if you write a review, AniList posts it with your account, in everyone's view unless you mark it private. If you import your AniList list, it receives the username you type, to read that public list. If you connect your account, Torii reads and writes your AniList anime list with that session, so it matches your Library: what you add, change or remove on one side goes to the other. You can disconnect it whenever you want in Settings → Accounts (that deletes the session from your PC; to revoke the permission completely, also do it in your AniList account settings).</li>
+      <li>MyAnimeList (api.myanimelist.net): in Friends, it receives the username of the MyAnimeList person you add, to read their public list. If you connect your account, Torii reads and writes your MyAnimeList anime list with the session it gives you, so it matches your Library, as with AniList, and renews that session when it is about to expire. To know which series each anime on that list is, AniList receives their MyAnimeList identifiers. You can disconnect it whenever you want in Settings → Accounts (to revoke the permission completely, also do it in your MyAnimeList account settings).</li>
+      <li>The Movie Database (TMDB: api.themoviedb.org and image.tmdb.org): for the movies and shows catalog, their pages, cast, trailers and pictures. It receives what you search for, each movie's or show's identifier and the application's language (for example, &quot;es-AR&quot;). For &quot;Where to watch&quot;, Torii asks it for the services of every country and picks yours on your PC: your country is not sent. That where-to-watch data is provided by JustWatch through TMDB.</li>
+      <li>ani.zip: the series' identifier, to get its episodes, each one's picture and its identifiers on other sites.</li>
+      <li>AniSkip: the series' MyAnimeList identifier and the episode number, to know where the opening and ending are.</li>
+      <li>GitHub (github.com): when it starts, Torii checks whether there's a new version; if you decide to update, it downloads it from there and installs it (on the phone, Android's installer asks you to confirm).</li>
+      <li>Google: the Android app reads QR codes with Google's reader (Google Play services), which processes the image on your phone and gives Torii only the code's text. The camera is used only while that reader is open.</li>
+      <li>Link phone: to take your data from the PC to the phone, the PC listens on your local network while it shows a QR code, and answers only to whoever has that code (single use, with a key inside it). The phone tells it its name (for example, the model) and the PC asks you whether you allow the link; if you accept, the PC hands over a copy of your library, lists, progress, settings, sources (with their addresses and keys), friends and the sessions of your AniList and MyAnimeList accounts, encrypted, directly over your local network. None of this goes through the internet or any Torii server. The phone replaces its data with that copy. From then on, while the PC and the phone are on the same network, they pass each other, encrypted with that link's key, what you watched (the progress of each episode) and the changes of your library, so both are the same: the PC answers the phone while Torii is open, and tells the local network it is there with a short message (its port and the link's identifier, which is useless without the key). You can unlink the phone whenever you want in Settings → Link phone, from either of them.</li>
+      <li>Casting to a TV (phone only): if you pick a TV or Chromecast on your network, the phone sends it over your local network the episode's title and the address of a server the phone opens by itself only while you cast (with a random key in the address), and the TV downloads the video from it. So the TV can play it, the phone converts the video itself (with a program included in the app, FFmpeg) and passes the subtitles along; none of that leaves your local network or goes through Torii servers. The TV opens Torii's screen (the &quot;receiver&quot;) from torii-app-zz.github.io, a GitHub page: GitHub sees your TV's IP address, and the TV tells Google Cast services that it opened that application, under Google's rules. When you finish or disconnect, the server closes.</li>
+      <li>Microsoft: if your Windows lacks WebView2, the installer downloads it from Microsoft.</li>
+      <li>The sources you add: they receive what is searched (the title and the episode) or the identifier of the episode, the movie or the show. Folders on your PC don't go anywhere: Torii only reads the names of their videos and plays them from there, without changing them.</li>
+      <li>When playing by torrent: the trackers, the DHT network and the people sharing the same torrent see your IP address and which torrent you're sharing.</li>
+      <li>When playing a video by its link: that link's server.</li>
+      <li>If you open the trailer or a &quot;Where to watch&quot; service, it opens in your browser, under that site's rules.</li>
+      </ul>
+      <p>Like any internet connection, each of these services sees your IP address, and handles data according to its own policies.</p>
+      <h2>3. Controller and your rights</h2>
+      <p>The authors of Torii don't collect or keep personal data of yours: they have no database with your information. Your data in Torii is on your PC and you control it: you can see, change or delete it from the application, or by deleting its folders. What each third-party service keeps is governed by its own policy, and your rights over it are exercised with that service.</p>
+      <p>The data subject has the right to access their personal data free of charge at intervals of no less than six months, unless a legitimate interest is proven to that effect, as set forth in article 14, subsection 3 of Law No. 25,326. The Agency for Access to Public Information, as the Control Body of Law No. 25,326, has the power to handle the complaints and claims filed by those whose rights are affected by non-compliance with the rules in force on personal data protection.</p>
+      <h2>4. Minors</h2>
+      <p>Torii doesn't ask for age or any personal data. In the anime catalog and its searches it doesn't show the content AniList marks as adult, unless you turn on &quot;Adult content&quot; in Settings → Appearance, which asks you to confirm you are 18 or older.</p>
+      <h2>5. How to delete your data</h2>
+      <p>Uninstall Torii and delete the folders in point 1 (%APPDATA%\app.torii.desktop and %LOCALAPPDATA%\app.torii.desktop). On the phone: uninstall the app, or in Android settings, Apps → Torii → Storage → Clear data. Episodes can be deleted before from Settings → Downloads.</p>
+      <h2>6. Changes and contact</h2>
+      <p>If we change this policy, we publish the new version in the application (Settings → About) and mention it in What's new. For questions: <a href="mailto:toriiappzz@gmail.com">toriiappzz@gmail.com</a>.</p>
+      </section>
+    </div>
+  </main>
+  <footer>
+    <div class="wrap">Torii · <a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Términos de uso</a></div>
+  </footer>
+</body>
+</html>
